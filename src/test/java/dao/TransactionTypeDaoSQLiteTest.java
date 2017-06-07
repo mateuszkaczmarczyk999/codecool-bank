@@ -38,7 +38,7 @@ class TransactionTypeDaoSQLiteTest {
     @Test
     void testFindTransactionType() throws SQLException {
         Integer testId = 1;
-        TransactionType expextedTransactionType = new TransactionType(1, "testname", "testDescription");
+        TransactionType expextedTransactionType = new TransactionType(1, "testName", "testDescription");
         TransactionType actualTransactiontype = transactionTypeDaoSQLite.find(testId);
         assertAll("FoundTransactionTypeData",
                 () -> assertEquals(expextedTransactionType.getTypeId(), actualTransactiontype.getTypeId()),

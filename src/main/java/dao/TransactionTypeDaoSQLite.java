@@ -12,7 +12,7 @@ public class TransactionTypeDaoSQLite implements TransactionTypeDao{
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public TransactionType find(Integer id) throws SQLException {
-        String query = "SELECT * FROM transaction_types WHERE id = ?;";
+        String query = "SELECT * FROM transaction_types WHERE transactiontypeID = ?;";
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
         preparedStatement.setInt(1, id);
         return resultSetToTransactionType(preparedStatement.executeQuery());
