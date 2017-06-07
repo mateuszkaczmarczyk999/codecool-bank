@@ -1,4 +1,8 @@
-
+# IntelliJ
 .idea/
 target/
 *.iml
+
+# Database
+*.db
+*.sqlite
