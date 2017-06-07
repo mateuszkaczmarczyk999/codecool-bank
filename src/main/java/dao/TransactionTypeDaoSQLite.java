@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TransactionTypeDaoSQLite {
+public class TransactionTypeDaoSQLite implements TransactionTypeDao{
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public TransactionType find(Integer id) throws SQLException {
