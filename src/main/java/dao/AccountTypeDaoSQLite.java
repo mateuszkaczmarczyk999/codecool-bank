@@ -13,7 +13,7 @@ public class AccountTypeDaoSQLite implements AccountTypeDao {
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public AccountType find(Integer id) throws SQLException {
-        String query = "SELECT * FROM account_type WHERE accounttypeID = ?";
+        String query = "SELECT * FROM account_type WHERE accounttypeID = ?;";
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
         preparedStatement.setInt(1, id);
         return resultSetToAccountType(preparedStatement.executeQuery());
