@@ -1,7 +1,7 @@
 package model;
 
 
-public class AbstractAccount implements Account{
+public abstract class AbstractAccount implements Account{
 
     @Override
     public void deposit(long amount) {

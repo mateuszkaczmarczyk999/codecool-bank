@@ -1,0 +1,9 @@
+DROP TABLE transactions;
+DROP TABLE transaction_types;
+DROP TABLE transaction_statuses;
+DROP TABLE customers;
+DROP TABLE cards;
+DROP TABLE card_types;
+DROP TABLE accounts;
+DROP TABLE account_type;
+DROP TABLE account_status;

@@ -1,5 +1,5 @@
 package model;
 
 
-public class AbstractTransaction {
+public abstract class AbstractTransaction {
 }
