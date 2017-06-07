@@ -51,14 +51,15 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE transactions (
-  transactionID       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-  dateoftransaction   DATETIME                                 NOT NULL,
-  transactiontypeID   INTEGER                                  NOT NULL,
-  value               BIGINT                                   NOT NULL,
-  description         VARCHAR(250)                             NOT NULL,
-  transactionstatusID INTEGER                                  NOT NULL,
-  accountID           INTEGER                                  NOT NULL,
-  cardID              INTEGER
+  transactionID        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+  dateoftransaction    DATETIME                                 NOT NULL,
+  transactiontypeID    INTEGER                                  NOT NULL,
+  value                BIGINT                                   NOT NULL,
+  description          VARCHAR(250)                             NOT NULL,
+  transactionstatusID  INTEGER                                  NOT NULL,
+  sourceaccountID      INTEGER                                  NOT NULL,
+  sourcecardID         INTEGER,
+  destinationaccountID INTEGER                                  NOT NULL
 );
 
 CREATE TABLE transaction_types (
@@ -67,8 +68,8 @@ CREATE TABLE transaction_types (
   description       VARCHAR(250)
 );
 
-CREATE TABLE transaction_types (
-  transactiontypeID INTEGER AUTOINCREMENT PRIMARY KEY UNIQUE NOT NULL,
-  name              VARCHAR(50)                              NOT NULL,
-  description       VARCHAR(250)
+CREATE TABLE transaction_statuses (
+  transactionstatusID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+  name                TEXT                                     NOT NULL,
+  description         TEXT
 );
