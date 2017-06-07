@@ -6,7 +6,7 @@ public class TransactionType extends AbstractType {
         super(name, description);
     }
 
-    TransactionType(Integer id, String name, String description) {
+    public TransactionType(Integer id, String name, String description) {
         super(id, name, description);
     }
 }
