@@ -1,9 +1,9 @@
-DROP TABLE transactions;
-DROP TABLE transaction_types;
-DROP TABLE transaction_statuses;
-DROP TABLE customers;
-DROP TABLE cards;
-DROP TABLE card_types;
-DROP TABLE accounts;
-DROP TABLE account_type;
-DROP TABLE account_status;
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS transaction_types;
+DROP TABLE IF EXISTS transaction_statuses;
+DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS card_types;
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS account_type;
+DROP TABLE IF EXISTS account_status;
