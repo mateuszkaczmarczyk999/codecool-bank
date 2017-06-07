@@ -7,6 +7,17 @@ public abstract class AbstractType {
     private String name;
     private String description;
 
+    AbstractType(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    AbstractType(Integer id, String name, String description) {
+        this.typeId = id;
+        this.name = name;
+        this.description = description;
+    }
+
     public Integer getTypeId() {
         return typeId;
     }
