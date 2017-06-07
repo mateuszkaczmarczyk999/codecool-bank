@@ -1,4 +1,4 @@
-CREATE TABLE cards (
+CREATE TABLE IF NOT EXISTS cards (
   cardID            INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   cardnumber        VARCHAR(50)                              NOT NULL,
   cardtypeID        INTEGER                                  NOT NULL,
@@ -9,19 +9,19 @@ CREATE TABLE cards (
   accountID         INTEGER                                  NOT NULL
 );
 
-CREATE TABLE card_types (
+CREATE TABLE IF NOT EXISTS card_types (
   cardtypeID  INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name        VARCHAR(50)                              NOT NULL,
   description VARCHAR(250)
 );
 
-CREATE TABLE account_status (
+CREATE TABLE IF NOT EXISTS account_status (
   accountstatusID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name            VARCHAR(50)                              NOT NULL,
   description     VARCHAR(250)
 );
 
-CREATE TABLE accounts (
+CREATE TABLE IF NOT EXISTS accounts (
   accountID       INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   customerID      INTEGER                                  NOT NULL,
   number          VARCHAR(20)                              NOT NULL,
@@ -33,13 +33,13 @@ CREATE TABLE accounts (
   interest        INTEGER                                  NOT NULL
 );
 
-CREATE TABLE account_type (
+CREATE TABLE IF NOT EXISTS account_type (
   accounttypeID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name          VARCHAR(50)                              NOT NULL,
   description   VARCHAR(250)
 );
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
   customerID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   firstname  VARCHAR(50)                              NOT NULL,
   lastname   VARCHAR(50)                              NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE customers (
   lastlogin  DATETIME
 );
 
-CREATE TABLE transactions (
+CREATE TABLE IF NOT EXISTS transactions (
   transactionID        INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   dateoftransaction    DATETIME                                 NOT NULL,
   transactiontypeID    INTEGER                                  NOT NULL,
@@ -62,13 +62,13 @@ CREATE TABLE transactions (
   destinationaccountID INTEGER                                  NOT NULL
 );
 
-CREATE TABLE transaction_types (
+CREATE TABLE IF NOT EXISTS transaction_types (
   transactiontypeID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name              VARCHAR(50)                              NOT NULL,
   description       VARCHAR(250)
 );
 
-CREATE TABLE transaction_statuses (
+CREATE TABLE IF NOT EXISTS transaction_statuses (
   transactionstatusID INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   name                TEXT                                     NOT NULL,
   description         TEXT
