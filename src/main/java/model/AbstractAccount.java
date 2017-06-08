@@ -6,7 +6,7 @@ import java.sql.Date;
 public abstract class AbstractAccount implements Account{
 
     private Integer accountId;
-    private Customer customer;
+    private Integer customerId;
     private String number;
     private AccountType accountType;
     private AccountStatus accountStatus;
@@ -15,8 +15,8 @@ public abstract class AbstractAccount implements Account{
     private Long debitLine;
     private Integer interest;
 
-    public AbstractAccount(Customer customer, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
-        this.customer = customer;
+    public AbstractAccount(Integer customerId, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
+        this.customerId = customerId;
         this.number = number;
         this.accountType = accountType;
         this.accountStatus = accountStatus;
@@ -26,9 +26,9 @@ public abstract class AbstractAccount implements Account{
         this.interest = interest;
     }
 
-    public AbstractAccount(Integer accountId, Customer customer, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
+    public AbstractAccount(Integer accountId, Integer customerId, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
         this.accountId = accountId;
-        this.customer = customer;
+        this.customerId = customerId;
         this.number = number;
         this.accountType = accountType;
         this.accountStatus = accountStatus;
@@ -44,8 +44,8 @@ public abstract class AbstractAccount implements Account{
     }
 
     @Override
-    public Customer getCustomer() {
-        return customer;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
     @Override

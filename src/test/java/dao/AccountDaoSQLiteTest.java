@@ -21,10 +21,10 @@ class AccountDaoSQLiteTest {
 
     @BeforeEach
     void openConnection() throws SQLException {
-        this.dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
-        this.dbConnect.initDatabase();
-        this.dbConnect.insertData();
-        this.accountDaoSQLite = new AccountDaoSQLite(this.dbConnect);
+        dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        dbConnect.initDatabase();
+        dbConnect.insertData();
+        this.accountDaoSQLite = new AccountDaoSQLite(dbConnect);
     }
 
     @AfterEach
@@ -45,13 +45,12 @@ class AccountDaoSQLiteTest {
         Integer testCustomerId = 1;
         Date creationDateTime = new Date(new java.util.Date().getTime());
         Customer newCustomer = new Customer(1, "Jan", "Kowalski", "jkowalski", "xxx", creationDateTime, true, null);
-        AccountType accountType = new AccountType(1, "Saving Account", "Description");
-        AccountStatus accountStatus = new AccountStatus(1, "Validate", "Description");
-        Account newAccount = new SavingAccount(newCustomer, "000999", accountType, accountStatus, creationDateTime, 1000L, 0L, 10);
+        AccountType accountType = new AccountType(1, "Saving Account", null);
+        AccountStatus accountStatus = new AccountStatus(1, "Valid", null);
+        Account newAccount = new SavingAccount(newCustomer.getCustomerId(), "000999", accountType, accountStatus, creationDateTime, 1000L, 0L, 10);
         this.accountDaoSQLite.addOrUpdate(newAccount);
-        Account accountFromDb = this.accountDaoSQLite.find(testCustomerId);
+        Account accountFromDb = this.accountDaoSQLite.find(1);
         assertAll("FoundTransactionTypeData",
-                () -> assertEquals(accountFromDb.getCustomer().getFirstName(), newCustomer.getFirstName()),
                 () -> assertEquals(accountFromDb.getAccountType().getName(), accountType.getName()),
                 () -> assertEquals(accountFromDb.getAccountStatus().getName(), accountStatus.getName()),
                 () -> assertEquals(accountFromDb.getNumber(), newAccount.getNumber())

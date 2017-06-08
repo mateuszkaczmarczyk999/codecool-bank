@@ -6,7 +6,7 @@ import java.util.Date;
 public interface Account {
 
     Integer getAccountId();
-    Customer getCustomer();
+    Integer getCustomerId();
     String getNumber();
     AccountType getAccountType();
     AccountStatus getAccountStatus();

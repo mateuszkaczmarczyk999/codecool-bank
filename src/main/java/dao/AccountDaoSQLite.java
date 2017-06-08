@@ -19,9 +19,9 @@ public class AccountDaoSQLite implements AccountDao {
 
     public AccountDaoSQLite(DatabaseConnection dbConnect) {
         this.dbConnect = dbConnect;
-        this.accountTypeDao = new AccountTypeDaoSQLite(dbConnect);
-        this.accountStatusDao = new AccountStatusDaoSQLite(dbConnect);
-        this.customerDao = new CustomerDaoSQLite(dbConnect);
+        this.accountTypeDao = new AccountTypeDaoSQLite(this.dbConnect);
+        this.accountStatusDao = new AccountStatusDaoSQLite(this.dbConnect);
+        this.customerDao = new CustomerDaoSQLite(this.dbConnect);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AccountDaoSQLite implements AccountDao {
 
         if (accountId == null) {
             preparedStatement = this.dbConnect.getConnection().prepareStatement(addQuery);
-            preparedStatement.setInt(1, account.getCustomer().getCustomerId());
+            preparedStatement.setInt(1, account.getCustomerId());
             preparedStatement.setString(2, account.getNumber());
             preparedStatement.setInt(3, account.getAccountType().getTypeId());
             preparedStatement.setInt(4, account.getAccountStatus().getStatusId());
@@ -52,7 +52,7 @@ public class AccountDaoSQLite implements AccountDao {
             preparedStatement.setInt(5, account.getInterest());
             preparedStatement.setInt(6, account.getAccountId());
         }
-        preparedStatement.execute();
+        preparedStatement.executeUpdate();
     }
 
     @Override
@@ -60,7 +60,8 @@ public class AccountDaoSQLite implements AccountDao {
         String query = "SELECT * FROM accounts WHERE accountID = ?;";
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
         preparedStatement.setInt(1, accountId);
-        return resultSetToAccount(preparedStatement.executeQuery());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSetToAccount(resultSet);
     }
 
     @Override
@@ -73,8 +74,8 @@ public class AccountDaoSQLite implements AccountDao {
         Integer accountId = null;
         Integer customerId = null;
         String number = null;
-        Integer accountTypeId = null;
-        Integer accountStatusId = null;
+        AccountType accountType = null;
+        AccountStatus accountStatus = null;
         Date openDate = null;
         Long balance = null;
         Long debitLine = null;
@@ -83,21 +84,18 @@ public class AccountDaoSQLite implements AccountDao {
             accountId = resultSet.getInt("accountID");
             customerId = resultSet.getInt("customerID");
             number = resultSet.getString("number");
-            accountTypeId = resultSet.getInt("accounttypeID");
-            accountStatusId = resultSet.getInt("accountstatusID");
+            accountType = accountTypeDao.find(resultSet.getInt("accounttypeID"));
+            accountStatus = accountStatusDao.find(resultSet.getInt("accountstatusID"));
             openDate = resultSet.getDate("opendate");
             balance = resultSet.getLong("balance");
             debitLine = resultSet.getLong("debitline");
             interest = resultSet.getInt("interest");
         }
-        AccountType accountType = accountTypeDao.find(accountTypeId);
-        AccountStatus accountStatus = accountStatusDao.find(accountStatusId);
-        Customer customer = customerDao.find(customerId);
         if (accountType.getName().equals("Credit Account")) {
-            account = new CreditAccount(accountId, customer, number, accountType, accountStatus, openDate, balance, debitLine, interest);
+            account = new CreditAccount(accountId, customerId, number, accountType, accountStatus, openDate, balance, debitLine, interest);
         }
         if (accountType.getName().equals("Saving Account")) {
-            account = new SavingAccount(accountId, customer, number, accountType, accountStatus, openDate, balance, debitLine, interest);
+            account = new SavingAccount(accountId, customerId, number, accountType, accountStatus, openDate, balance, debitLine, interest);
         }
         return account;
     }
