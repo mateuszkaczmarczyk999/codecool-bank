@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TransactionStatusDaoSQLite implements AccountStatusDao{
+public class TransactionStatusDaoSQLite implements TransactionStatusDao{
     DatabaseConnection dbConnect = new DatabaseConnection();
 
     public TransactionStatus find(Integer id) throws SQLException {
