@@ -94,11 +94,11 @@ public class Customer {
         isActive = active;
     }
 
-    public Date getLasLogin() {
+    public Date getLastLogin() {
         return lasLogin;
     }
 
-    public void setLasLogin(Date lasLogin) {
+    public void setLastLogin(Date lasLogin) {
         this.lasLogin = lasLogin;
     }
 

@@ -13,31 +13,38 @@ import java.util.Date;
 import java.util.List;
 
 public class CustomerDaoSQLite implements CustomerDao {
+    DatabaseConnection dbConnect = new DatabaseConnection();
 
-    private DatabaseConnection dbCommenct;
-
-    public CustomerDaoSQLite(DatabaseConnection dbCommenct) {
-        this.dbCommenct = dbCommenct;
-    }
-
-    @Override
     public Customer find(Integer customerId) throws SQLException {
         String query = "SELECT * FROM customers WHERE customerID = ?;";
-        PreparedStatement preparedStatement = this.dbCommenct.getConnection().prepareStatement(query);
+        PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
+        preparedStatement.setInt(1, customerId);
         return resultSetToCustomer(preparedStatement.executeQuery());
     }
 
-    public void add(Customer customer) throws SQLException {
-        String query = "INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        PreparedStatement preparedStatement = this.dbCommenct.getConnection().prepareStatement(query);
-        preparedStatement.setString(1, customer.getFirstName());
-        preparedStatement.setString(2, customer.getLastName());
-        preparedStatement.setString(3, customer.getLogin());
-        preparedStatement.setString(4, customer.getPassword());
-        preparedStatement.setDate(5, (java.sql.Date) customer.getCreateDate());
-        preparedStatement.setBoolean(6, customer.isActive());
-        preparedStatement.setDate(7, (java.sql.Date) customer.getLasLogin());
-        preparedStatement.executeUpdate(query);
+    public void addOrUpadte(Customer customer) throws SQLException {
+        String insertQuery = "INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        String updateQuery = "UPDATE customers SET password = ?, isactive = ?, lastlogin = ?;";
+
+        Integer customerId = customer.getCustomerId();
+        PreparedStatement preparedStatement;
+
+        if (customerId == null) {
+            preparedStatement = this.dbConnect.getConnection().prepareStatement(insertQuery);
+            preparedStatement.setString(1, customer.getFirstName());
+            preparedStatement.setString(2, customer.getLastName());
+            preparedStatement.setString(3, customer.getLogin());
+            preparedStatement.setString(4, customer.getPassword());
+            preparedStatement.setDate(5, (java.sql.Date) customer.getCreateDate());
+            preparedStatement.setBoolean(6, customer.isActive());
+            preparedStatement.setDate(7, (java.sql.Date) customer.getLastLogin());
+        } else {
+            preparedStatement = this.dbConnect.getConnection().prepareStatement(updateQuery);
+            preparedStatement.setString(1, customer.getPassword());
+            preparedStatement.setBoolean(2, customer.isActive());
+            preparedStatement.setDate(3, (java.sql.Date) customer.getLastLogin());
+        }
+        preparedStatement.executeQuery();
     }
 
     private Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
@@ -60,8 +67,12 @@ public class CustomerDaoSQLite implements CustomerDao {
             createDate = resultSet.getDate("createdate");
             isActive = resultSet.getBoolean("isactive");
             lasLogin = resultSet.getDate("lastlogin");
-            accounts = new AccountDaoSQLite(this.dbCommenct).getByCustomerId(customerId);
+            accounts = new AccountDaoSQLite().getByCustomerId(customerId);
         }
         return new Customer(firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
+    }
+
+    public DatabaseConnection getDbConnect() {
+        return dbConnect;
     }
 }
