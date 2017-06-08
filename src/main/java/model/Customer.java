@@ -31,7 +31,19 @@ public class Customer {
         this.accounts = new ArrayList<>();
     }
 
-    public Customer(String firstName, String lastName, String login, String password, Date createDate, boolean isActive, Date lasLogin, List<Account> accounts) {
+    public Customer(String firstName, String lastName, String login, String password, Date createDate, boolean isActive, Date lasLogin) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.createDate = createDate;
+        this.isActive = isActive;
+        this.lasLogin = lasLogin;
+        this.accounts = new ArrayList<>();
+    }
+
+    public Customer(Integer customerId ,String firstName, String lastName, String login, String password, Date createDate, boolean isActive, Date lasLogin, List<Account> accounts) {
+        this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;

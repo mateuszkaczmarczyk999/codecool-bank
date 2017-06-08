@@ -26,7 +26,7 @@ public class CustomerDaoSQLite implements CustomerDao {
         return resultSetToCustomer(preparedStatement.executeQuery());
     }
 
-    public void addOrUpadte(Customer customer) throws SQLException {
+    public Integer addOrUpadte(Customer customer) throws SQLException {
         String insertQuery = "INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin) VALUES (?, ?, ?, ?, ?, ?, ?);";
         String updateQuery = "UPDATE customers SET password = ?, isactive = ?, lastlogin = ?;";
 
@@ -48,7 +48,7 @@ public class CustomerDaoSQLite implements CustomerDao {
             preparedStatement.setBoolean(2, customer.isActive());
             preparedStatement.setDate(3, (java.sql.Date) customer.getLastLogin());
         }
-        preparedStatement.executeQuery();
+        return preparedStatement.executeUpdate();
     }
 
     private Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
@@ -73,10 +73,6 @@ public class CustomerDaoSQLite implements CustomerDao {
             lasLogin = resultSet.getDate("lastlogin");
             accounts = new AccountDaoSQLite(this.dbConnect).getByCustomerId(customerId);
         }
-        return new Customer(firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
-    }
-
-    public DatabaseConnection getDbConnect() {
-        return dbConnect;
+        return new Customer(customerId, firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
     }
 }
