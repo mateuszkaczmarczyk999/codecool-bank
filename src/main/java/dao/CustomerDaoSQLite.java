@@ -13,8 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 public class CustomerDaoSQLite implements CustomerDao {
-    DatabaseConnection dbCommenct = new DatabaseConnection();
 
+    private DatabaseConnection dbCommenct;
+
+    public CustomerDaoSQLite(DatabaseConnection dbCommenct) {
+        this.dbCommenct = dbCommenct;
+    }
+
+    @Override
     public Customer find(Integer customerId) throws SQLException {
         String query = "SELECT * FROM customers WHERE customerID = ?;";
         PreparedStatement preparedStatement = this.dbCommenct.getConnection().prepareStatement(query);
@@ -54,7 +60,7 @@ public class CustomerDaoSQLite implements CustomerDao {
             createDate = resultSet.getDate("createdate");
             isActive = resultSet.getBoolean("isactive");
             lasLogin = resultSet.getDate("lastlogin");
-            accounts = new AccountDaoSQLite().getByCustomerId(customerId);
+            accounts = new AccountDaoSQLite(this.dbCommenct).getByCustomerId(customerId);
         }
         return new Customer(firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
     }

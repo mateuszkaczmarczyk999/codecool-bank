@@ -4,6 +4,7 @@ import model.TransactionStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.DatabaseConnection;
 import util.FileReader;
 
 import java.sql.SQLException;
@@ -12,20 +13,22 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionStatusDaoSQLiteTest {
-    private TransactionStatusDaoSQLite transactionStatusDaoSQLite = new TransactionStatusDaoSQLite();
+    private DatabaseConnection dbConnect = new DatabaseConnection();
+    private TransactionStatusDaoSQLite transactionStatusDaoSQLite;
 
     @BeforeEach
     void openConnection() throws SQLException {
-        this.transactionStatusDaoSQLite.getDbConnect().openConnection("jdbc:sqlite:src/test/resource/test_database.db");
-        this.transactionStatusDaoSQLite.getDbConnect().initDatabase();
-        this.transactionStatusDaoSQLite.getDbConnect().insertData();
+        this.dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        this.dbConnect.initDatabase();
+        this.dbConnect.insertData();
+        this.transactionStatusDaoSQLite = new TransactionStatusDaoSQLite(this.dbConnect);
     }
 
     @AfterEach
     void dropTables() throws SQLException {
         FileReader reader = new FileReader();
         String[] createTables = reader.getStringFromFile("/sql/dropTables.sql").split(";");
-        Statement statement = this.transactionStatusDaoSQLite.dbConnect.getConnection().createStatement();
+        Statement statement = this.dbConnect.getConnection().createStatement();
         for (String query : createTables) {
             if (!query.trim().equals("")) {
                 statement.executeUpdate(query);

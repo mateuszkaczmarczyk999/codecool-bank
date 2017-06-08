@@ -12,15 +12,22 @@ import java.util.List;
 
 public class AccountDaoSQLite implements AccountDao {
 
-    DatabaseConnection dbConnect = new DatabaseConnection();
-    AccountTypeDao accountTypeDao = new AccountTypeDaoSQLite();
-    AccountStatusDao accountStatusDao = new AccountStatusDaoSQLite();
-    CustomerDao customerDao = new CustomerDaoSQLite();
+    DatabaseConnection dbConnect;
+    AccountTypeDao accountTypeDao;
+    AccountStatusDao accountStatusDao;
+    CustomerDao customerDao;
+
+    public AccountDaoSQLite(DatabaseConnection dbConnect) {
+        this.dbConnect = dbConnect;
+        this.accountTypeDao = new AccountTypeDaoSQLite(dbConnect);
+        this.accountStatusDao = new AccountStatusDaoSQLite(dbConnect);
+        this.customerDao = new CustomerDaoSQLite(dbConnect);
+    }
 
     @Override
     public void addOrUpdate(Account account) throws SQLException {
         String addQuery = "INSERT INTO accounts (customerID, number, accounttypeID, accountstatusID, opendate, balance, debitline, interest) " +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
         String updateQuery = "UPDATE accounts SET accounttypeID = ?, accountstatusID = ?, balance = ?, debitline = ?, interest = ? WHERE accountID = ?";
 
         Integer accountId = account.getAccountId();
@@ -45,7 +52,7 @@ public class AccountDaoSQLite implements AccountDao {
             preparedStatement.setInt(5, account.getInterest());
             preparedStatement.setInt(6, account.getAccountId());
         }
-        preparedStatement.executeQuery();
+        preparedStatement.execute();
     }
 
     @Override
@@ -54,6 +61,11 @@ public class AccountDaoSQLite implements AccountDao {
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
         preparedStatement.setInt(1, accountId);
         return resultSetToAccount(preparedStatement.executeQuery());
+    }
+
+    @Override
+    public DatabaseConnection getDbConnect() {
+        return dbConnect;
     }
 
     private Account resultSetToAccount(ResultSet resultSet) throws SQLException {
@@ -105,4 +117,5 @@ public class AccountDaoSQLite implements AccountDao {
         }
         return listOfAccount;
     }
+
 }

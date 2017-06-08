@@ -5,6 +5,7 @@ import model.TransactionType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.DatabaseConnection;
 import util.FileReader;
 
 import java.sql.SQLException;
@@ -13,20 +14,22 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TransactionTypeDaoSQLiteTest {
-    private TransactionTypeDaoSQLite transactionTypeDaoSQLite= new TransactionTypeDaoSQLite();
+    private DatabaseConnection dbConnect = new DatabaseConnection();
+    private TransactionTypeDaoSQLite transactionTypeDaoSQLite;
 
     @BeforeEach
     void openConnection() throws SQLException {
-        this.transactionTypeDaoSQLite.getDbConnect().openConnection("jdbc:sqlite:src/test/resource/test_database.db");
-        this.transactionTypeDaoSQLite.getDbConnect().initDatabase();
-        this.transactionTypeDaoSQLite.getDbConnect().insertData();
+        this.dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        this.dbConnect.initDatabase();
+        this.dbConnect.insertData();
+        this.transactionTypeDaoSQLite = new TransactionTypeDaoSQLite(this.dbConnect);
     }
 
     @AfterEach
     void dropTables() throws SQLException {
         FileReader reader = new FileReader();
         String[] createTables = reader.getStringFromFile("/sql/dropTables.sql").split(";");
-        Statement statement = this.transactionTypeDaoSQLite.dbConnect.getConnection().createStatement();
+        Statement statement = this.dbConnect.getConnection().createStatement();
         for (String query : createTables) {
             if (!query.trim().equals("")) {
                 statement.executeUpdate(query);

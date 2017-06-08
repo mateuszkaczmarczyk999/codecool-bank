@@ -9,7 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TransactionStatusDaoSQLite implements TransactionStatusDao{
-    DatabaseConnection dbConnect = new DatabaseConnection();
+    DatabaseConnection dbConnect;
+
+    public TransactionStatusDaoSQLite(DatabaseConnection dbConnect) {
+        this.dbConnect = dbConnect;
+    }
 
     public TransactionStatus find(Integer id) throws SQLException {
         String query = "SELECT * FROM transaction_statuses WHERE transactionstatusID = ?;";

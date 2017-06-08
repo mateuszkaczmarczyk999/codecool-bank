@@ -5,6 +5,7 @@ import model.AccountType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.DatabaseConnection;
 import util.FileReader;
 
 import java.sql.SQLException;
@@ -14,13 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTypeDaoSQLiteTest {
 
-    private AccountTypeDaoSQLite accountTypeDaoSQLite = new AccountTypeDaoSQLite();
+    private DatabaseConnection dbConnect = new DatabaseConnection();
+    private AccountTypeDaoSQLite accountTypeDaoSQLite;
 
     @BeforeEach
     void openConnection() throws SQLException {
-        this.accountTypeDaoSQLite.getDbConnect().openConnection ("jdbc:sqlite:src/test/resource/test_database.db");
-        this.accountTypeDaoSQLite.getDbConnect().initDatabase();
-        this.accountTypeDaoSQLite.getDbConnect().insertData();
+        this.dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        this.dbConnect.initDatabase();
+        this.dbConnect.insertData();
+        this.accountTypeDaoSQLite = new AccountTypeDaoSQLite(this.dbConnect);
     }
 
     @AfterEach
@@ -28,7 +31,7 @@ class AccountTypeDaoSQLiteTest {
 
         FileReader reader = new FileReader();
         String[] createTables= reader.getStringFromFile("/sql/dropTables.sql").split(";");
-        Statement statement = this.accountTypeDaoSQLite.getDbConnect().getConnection().createStatement();
+        Statement statement = this.dbConnect.getConnection().createStatement();
         for (String query: createTables) {
             if (!query.trim().equals("")) {
                 statement.executeUpdate(query);

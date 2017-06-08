@@ -10,8 +10,13 @@ import java.sql.SQLException;
 
 public class AccountTypeDaoSQLite implements AccountTypeDao {
 
-    DatabaseConnection dbConnect = new DatabaseConnection();
+    private DatabaseConnection dbConnect;
 
+    public AccountTypeDaoSQLite(DatabaseConnection dbConnect) {
+        this.dbConnect = dbConnect;
+    }
+
+    @Override
     public AccountType find(Integer id) throws SQLException {
         String query = "SELECT * FROM account_type WHERE accounttypeID = ?;";
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
@@ -31,6 +36,7 @@ public class AccountTypeDaoSQLite implements AccountTypeDao {
         return new AccountType(id, name, description);
     }
 
+    @Override
     public DatabaseConnection getDbConnect() {
         return dbConnect;
     }

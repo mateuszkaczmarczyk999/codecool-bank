@@ -9,7 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountStatusDaoSQLite implements AccountStatusDao{
-    DatabaseConnection dbConnect = new DatabaseConnection();
+
+    private DatabaseConnection dbConnect;
+
+    public AccountStatusDaoSQLite(DatabaseConnection dbConnect) {
+        this.dbConnect = dbConnect;
+    }
 
     @Override
     public AccountStatus find(Integer id) throws SQLException {
