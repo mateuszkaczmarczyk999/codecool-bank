@@ -41,6 +41,10 @@ public class Customer {
         this.accounts = accounts;
     }
 
+    public Integer getCustomerId() {
+        return customerId;
+    }
+
     public String getFirstName() {
         return firstName;
     }

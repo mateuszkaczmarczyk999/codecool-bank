@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CustomerDaoSQLite {
+public class CustomerDaoSQLite implements CustomerDao {
     DatabaseConnection dbCommenct = new DatabaseConnection();
 
     public Customer find(Integer customerId) throws SQLException {
@@ -54,7 +54,7 @@ public class CustomerDaoSQLite {
             createDate = resultSet.getDate("createdate");
             isActive = resultSet.getBoolean("isactive");
             lasLogin = resultSet.getDate("lastlogin");
-            accounts = new AccountDaoSQLite().getByCustomer(customerId);
+            accounts = new AccountDaoSQLite().getByCustomerId(customerId);
         }
         return new Customer(firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
     }
