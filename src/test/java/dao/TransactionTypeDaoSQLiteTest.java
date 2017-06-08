@@ -35,7 +35,7 @@ class TransactionTypeDaoSQLiteTest {
                 statement.executeUpdate(query);
             }
         }
-        this.transactionTypeDaoSQLite.getDbConnect().closeConnection();
+        this.dbConnect.closeConnection();
     }
 
     @Test

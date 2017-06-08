@@ -34,7 +34,7 @@ class AccountStatusDaoSQLiteTest {
                 statement.executeUpdate(query);
             }
         }
-        this.accountStatusDaoSQLite.getDbConnect().closeConnection();
+        this.dbConnect.closeConnection();
     }
 
     @Test

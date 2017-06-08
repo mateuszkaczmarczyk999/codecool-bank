@@ -5,6 +5,7 @@ import model.Customer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import util.DatabaseConnection;
 import util.FileReader;
 
 import java.sql.SQLException;
@@ -15,25 +16,28 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerDaoSQLiteTest {
-    private CustomerDaoSQLite customerDaoSQLite = new CustomerDaoSQLite();
+
+    private DatabaseConnection dbConnect = new DatabaseConnection();
+    private CustomerDaoSQLite customerDaoSQLite;
 
     @BeforeEach
     void openConnection() throws SQLException {
-        this.customerDaoSQLite.getDbConnect().openConnection("jdbc:sqlite:src/test/resource/test_database.db");
-        this.customerDaoSQLite.getDbConnect().initDatabase();
-        this.customerDaoSQLite.getDbConnect().insertData();
+        this.dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        this.dbConnect.initDatabase();
+        this.dbConnect.insertData();
+        this.customerDaoSQLite = new CustomerDaoSQLite(this.dbConnect);
     }
     @AfterEach
     void dropTable() throws SQLException {
         FileReader reader = new FileReader();
         String[] createTables= reader.getStringFromFile("/sql/dropTables.sql").split(";");
-        Statement statement = this.customerDaoSQLite.getDbConnect().getConnection().createStatement();
+        Statement statement = this.dbConnect.getConnection().createStatement();
         for (String query: createTables) {
             if (!query.trim().equals("")) {
                 statement.executeUpdate(query);
             }
         }
-        this.customerDaoSQLite.getDbConnect().closeConnection();
+        this.dbConnect.closeConnection();
     }
 
     @Test
