@@ -19,7 +19,8 @@ public class Customer {
     private Date lasLogin;
     List<Account> accounts;
 
-    public Customer(String firstName, String lastName, String login, String password, Date createDate, boolean isActive, Date lasLogin) {
+    public Customer(Integer customerId, String firstName, String lastName, String login, String password, Date createDate, boolean isActive, Date lasLogin) {
+        this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
@@ -93,11 +94,11 @@ public class Customer {
         isActive = active;
     }
 
-    public Date getLasLogin() {
+    public Date getLastLogin() {
         return lasLogin;
     }
 
-    public void setLasLogin(Date lasLogin) {
+    public void setLastLogin(Date lasLogin) {
         this.lasLogin = lasLogin;
     }
 
