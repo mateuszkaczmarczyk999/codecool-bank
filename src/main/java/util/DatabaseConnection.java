@@ -46,4 +46,15 @@ public class DatabaseConnection {
         }
         System.out.println("Data insert finished...");
     }
+
+    public void dropTables() throws SQLException {
+        String[] dropTables = reader.getStringFromFile("/sql/dropTables.sql").split(";");
+        Statement statement = connection.createStatement();
+        for (String query : dropTables) {
+            if (!query.trim().equals("")) {
+                statement.executeUpdate(query);
+            }
+        }
+        System.out.println("Tables dropped");
+    }
 }

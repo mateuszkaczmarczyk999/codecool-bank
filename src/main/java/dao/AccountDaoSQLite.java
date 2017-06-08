@@ -12,10 +12,10 @@ import java.util.List;
 
 public class AccountDaoSQLite implements AccountDao {
 
-    DatabaseConnection dbConnect;
-    AccountTypeDao accountTypeDao;
-    AccountStatusDao accountStatusDao;
-    CustomerDao customerDao;
+    private DatabaseConnection dbConnect;
+    private AccountTypeDao accountTypeDao;
+    private AccountStatusDao accountStatusDao;
+    private CustomerDao customerDao;
 
     public AccountDaoSQLite(DatabaseConnection dbConnect) {
         this.dbConnect = dbConnect;
@@ -71,32 +71,24 @@ public class AccountDaoSQLite implements AccountDao {
 
     private Account resultSetToAccount(ResultSet resultSet) throws SQLException {
         Account account = null;
-        Integer accountId = null;
-        Integer customerId = null;
-        String number = null;
-        AccountType accountType = null;
-        AccountStatus accountStatus = null;
-        Date openDate = null;
-        Long balance = null;
-        Long debitLine = null;
-        Integer interest = null;
-        while (resultSet.next()) {
-            accountId = resultSet.getInt("accountID");
-            customerId = resultSet.getInt("customerID");
-            number = resultSet.getString("number");
-            accountType = accountTypeDao.find(resultSet.getInt("accounttypeID"));
-            accountStatus = accountStatusDao.find(resultSet.getInt("accountstatusID"));
-            openDate = resultSet.getDate("opendate");
-            balance = resultSet.getLong("balance");
-            debitLine = resultSet.getLong("debitline");
-            interest = resultSet.getInt("interest");
-        }
+
+        Integer accountId = resultSet.getInt("accountID");
+        Integer customerId = resultSet.getInt("customerID");
+        String number = resultSet.getString("number");
+        AccountType accountType = accountTypeDao.find(resultSet.getInt("accounttypeID"));
+        AccountStatus accountStatus = accountStatusDao.find(resultSet.getInt("accountstatusID"));
+        Date openDate = resultSet.getDate("opendate");
+        Long balance = resultSet.getLong("balance");
+        Long debitLine = resultSet.getLong("debitline");
+        Integer interest = resultSet.getInt("interest");
+
         if (accountType.getName().equals("Credit Account")) {
             account = new CreditAccount(accountId, customerId, number, accountType, accountStatus, openDate, balance, debitLine, interest);
         }
         if (accountType.getName().equals("Saving Account")) {
             account = new SavingAccount(accountId, customerId, number, accountType, accountStatus, openDate, balance, debitLine, interest);
         }
+
         return account;
     }
 
