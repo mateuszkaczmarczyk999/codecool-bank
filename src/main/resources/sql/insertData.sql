@@ -7,4 +7,4 @@ INSERT INTO account_status (name, description) VALUES ('Invalid', 'Invalid Descr
 INSERT INTO transaction_statuses (name, description) VALUES ('testName', 'testDescription');
 INSERT INTO transaction_statuses (name, description) VALUES ('pending', 'pendingDescription');
 INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin)
-VALUES ('Jan', 'Kowalski', 'janko', '12345', 1496926140, 1, 1496926140);
+VALUES ('Jan', 'Kowalski', 'janko', '12345', 1496926140916, 1, 1496926140916);

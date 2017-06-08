@@ -43,7 +43,7 @@ class AccountTypeDaoSQLiteTest {
     @Test
     void testFindAccountType() throws SQLException {
         Integer testId = 1;
-        AccountType expectedAccountType = new AccountType(1, "testName", "testDescription");
+        AccountType expectedAccountType = new AccountType(1, "Saving Account", "Saving Description");
         AccountType actualAccountType = accountTypeDaoSQLite.find(testId);
         assertAll("FoundAccountTypeData",
                 () -> assertEquals(expectedAccountType.getTypeId(), actualAccountType.getTypeId()),

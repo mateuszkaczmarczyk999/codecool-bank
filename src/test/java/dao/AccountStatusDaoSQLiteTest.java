@@ -40,7 +40,7 @@ class AccountStatusDaoSQLiteTest {
     @Test
     void testFindAccountStatus() throws SQLException {
         Integer testId = 1;
-        AccountStatus expextedTransactionType = new AccountStatus(1, "testName", "testDescription");
+        AccountStatus expextedTransactionType = new AccountStatus(1, "Valid", "Valid Description");
         AccountStatus actualTransactiontype = accountStatusDaoSQLite.find(testId);
         assertAll("FoundTransactionTypeData",
                 () -> assertEquals(expextedTransactionType.getStatusId(), actualTransactiontype.getStatusId()),
