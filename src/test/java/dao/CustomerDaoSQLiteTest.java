@@ -1,8 +1,7 @@
-import static org.junit.jupiter.api.Assertions.*;
+package dao;
 
-/**
- * Created by cezary on 6/8/17.
- */
+
 class CustomerDaoSQLiteTest {
+
 
 }
