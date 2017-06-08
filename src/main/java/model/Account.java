@@ -1,11 +1,18 @@
 package model;
 
 
+import java.util.Date;
+
 public interface Account {
 
-    public void deposit(long amount);
-    public void withdraw(long amount);
-    public long getBalance();
-    public int getAccountId();
+    Integer getAccountId();
+    Customer getCustomer();
+    String getNumber();
+    AccountType getAccountType();
+    AccountStatus getAccountStatus();
+    Date getOpenDate();
+    Long getBalance();
+    Long getDebitLine();
+    Integer getInterest();
 
 }

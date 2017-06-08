@@ -11,6 +11,7 @@ import java.sql.SQLException;
 public class AccountStatusDaoSQLite implements AccountStatusDao{
     DatabaseConnection dbConnect = new DatabaseConnection();
 
+    @Override
     public AccountStatus find(Integer id) throws SQLException {
         String query = "SELECT * FROM account_status WHERE accountstatusID = ?;";
         PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
@@ -30,6 +31,7 @@ public class AccountStatusDaoSQLite implements AccountStatusDao{
         return new AccountStatus(id, name, description);
     }
 
+    @Override
     public DatabaseConnection getDbConnect() {
         return dbConnect;
     }
