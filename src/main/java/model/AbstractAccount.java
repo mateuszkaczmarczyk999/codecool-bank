@@ -1,25 +1,86 @@
 package model;
 
 
+import java.sql.Date;
+
 public abstract class AbstractAccount implements Account{
 
-    @Override
-    public void deposit(long amount) {
+    private Integer accountId;
+    private Customer customer;
+    private String number;
+    private AccountType accountType;
+    private AccountStatus accountStatus;
+    private Date openDate;
+    private Long balance;
+    private Long debitLine;
+    private Integer interest;
 
+    public AbstractAccount(Customer customer, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
+        this.customer = customer;
+        this.number = number;
+        this.accountType = accountType;
+        this.accountStatus = accountStatus;
+        this.openDate = openDate;
+        this.balance = balance;
+        this.debitLine = debitLine;
+        this.interest = interest;
+    }
+
+    public AbstractAccount(Integer accountId, Customer customer, String number, AccountType accountType, AccountStatus accountStatus, Date openDate, Long balance, Long debitLine, Integer interest) {
+        this.accountId = accountId;
+        this.customer = customer;
+        this.number = number;
+        this.accountType = accountType;
+        this.accountStatus = accountStatus;
+        this.openDate = openDate;
+        this.balance = balance;
+        this.debitLine = debitLine;
+        this.interest = interest;
     }
 
     @Override
-    public void withdraw(long amount) {
-
+    public Integer getAccountId() {
+        return accountId;
     }
 
     @Override
-    public long getBalance() {
-        return 0;
+    public Customer getCustomer() {
+        return customer;
     }
 
     @Override
-    public int getAccountId() {
-        return 0;
+    public String getNumber() {
+        return number;
     }
+
+    @Override
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    @Override
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    @Override
+    public Date getOpenDate() {
+        return openDate;
+    }
+
+    @Override
+    public Long getBalance() {
+        return balance;
+    }
+
+    @Override
+    public Long getDebitLine() {
+        return debitLine;
+    }
+
+    @Override
+    public Integer getInterest() {
+        return interest;
+    }
+
 }
