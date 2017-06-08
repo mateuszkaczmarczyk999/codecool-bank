@@ -7,6 +7,12 @@ public abstract class AbstractStatus {
     private String name;
     private String description;
 
+    public AbstractStatus(Integer id, String name, String description) {
+        this.statusId = id;
+        this.name = name;
+        this.description = description;
+    }
+
     public Integer getStatusId() {
         return statusId;
     }

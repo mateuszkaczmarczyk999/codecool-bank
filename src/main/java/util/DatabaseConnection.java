@@ -1,6 +1,9 @@
 package util;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseConnection {
 
@@ -30,5 +33,17 @@ public class DatabaseConnection {
                 statement.executeUpdate(query);
             }
         System.out.println("Done!");
+    }
+
+    public void insertData() throws SQLException {
+        String[] insertData = reader.getStringFromFile("/sql/insertData.sql").split(";");
+        Statement statement = connection.createStatement();
+        System.out.println("Inserting data...");
+        for (String query : insertData) {
+            if (!query.trim().equals("")) {
+                statement.executeUpdate(query);
+            }
+        }
+        System.out.println("Data insert finished...");
     }
 }

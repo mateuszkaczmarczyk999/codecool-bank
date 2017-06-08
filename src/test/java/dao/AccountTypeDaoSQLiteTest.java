@@ -5,10 +5,8 @@ import model.AccountType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.DatabaseConnection;
 import util.FileReader;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,13 +17,14 @@ class AccountTypeDaoSQLiteTest {
     private AccountTypeDaoSQLite accountTypeDaoSQLite = new AccountTypeDaoSQLite();
 
     @BeforeEach
-    public void openConnection() throws SQLException {
+    void openConnection() throws SQLException {
         this.accountTypeDaoSQLite.getDbConnect().openConnection ("jdbc:sqlite:src/test/resource/test_database.db");
         this.accountTypeDaoSQLite.getDbConnect().initDatabase();
+        this.accountTypeDaoSQLite.getDbConnect().insertData();
     }
 
     @AfterEach
-    public void dropTables() throws SQLException {
+    void dropTables() throws SQLException {
 
         FileReader reader = new FileReader();
         String[] createTables= reader.getStringFromFile("/sql/dropTables.sql").split(";");
@@ -35,17 +34,18 @@ class AccountTypeDaoSQLiteTest {
                 statement.executeUpdate(query);
             }
         }
-//        this.accountTypeDaoSQLite.getDbConnect().closeConnection();
+        this.accountTypeDaoSQLite.getDbConnect().closeConnection();
     }
 
     @Test
-    void testFindAccountType() {
-        AccountType testAccountType = new AccountType(1, "testName", "TestDescription");
+    void testFindAccountType() throws SQLException {
         Integer testId = 1;
-        assertAll(
-                () -> assertEquals(testAccountType.getTypeId(), this.accountTypeDaoSQLite.find(testId).getTypeId()),
-                () -> assertEquals(testAccountType.getName(), this.accountTypeDaoSQLite.find(testId).getName()),
-                () -> assertEquals(testAccountType.getDescription(), this.accountTypeDaoSQLite.find(testId).getDescription())
+        AccountType expectedAccountType = new AccountType(1, "testName", "testDescription");
+        AccountType actualAccountType = accountTypeDaoSQLite.find(testId);
+        assertAll("FoundAccountTypeData",
+                () -> assertEquals(expectedAccountType.getTypeId(), actualAccountType.getTypeId()),
+                () -> assertEquals(expectedAccountType.getName(), actualAccountType.getName()),
+                () -> assertEquals(expectedAccountType.getDescription(), actualAccountType.getDescription())
         );
     }
 
