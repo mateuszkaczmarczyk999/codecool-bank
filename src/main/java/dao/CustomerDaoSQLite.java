@@ -26,6 +26,14 @@ public class CustomerDaoSQLite implements CustomerDao {
         return resultSetToCustomer(preparedStatement.executeQuery());
     }
 
+    public Customer find(String login, String password) throws SQLException {
+        String query = "SELECT * FROM customers WHERE login = ? AND password = ?";
+        PreparedStatement preparedStatement = this.dbConnect.getConnection().prepareStatement(query);
+        preparedStatement.setString(1, login);
+        preparedStatement.setString(2, password);
+        return resultSetToCustomer(preparedStatement.executeQuery());
+    }
+
     public Integer addOrUpadte(Customer customer) throws SQLException {
         String insertQuery = "INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin) VALUES (?, ?, ?, ?, ?, ?, ?);";
         String updateQuery = "UPDATE customers SET password = ?, isactive = ?, lastlogin = ?;";
@@ -52,27 +60,21 @@ public class CustomerDaoSQLite implements CustomerDao {
     }
 
     private Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
-        Integer customerId = null;
-        String firstName = null;
-        String lastName = null;
-        String login = null;
-        String password = null;
-        Date createDate = null;
-        Boolean isActive = null;
-        Date lasLogin = null;
-        List<Account> accounts = new ArrayList<>();
+        Customer resultCustomer = null;
+        List<Account> accounts;
 
         while (resultSet.next()) {
-            customerId = resultSet.getInt("customerID");
-            firstName = resultSet.getString("firstname");
-            lastName = resultSet.getString("lastname");
-            login = resultSet.getString("login");
-            password = resultSet.getString("password");
-            createDate = resultSet.getDate("createdate");
-            isActive = resultSet.getBoolean("isactive");
-            lasLogin = resultSet.getDate("lastlogin");
+            Integer customerId = resultSet.getInt("customerID");
+            String firstName = resultSet.getString("firstname");
+            String lastName = resultSet.getString("lastname");
+            String login = resultSet.getString("login");
+            String password = resultSet.getString("password");
+            Date createDate = resultSet.getDate("createdate");
+            Boolean isActive = resultSet.getBoolean("isactive");
+            Date lasLogin = resultSet.getDate("lastlogin");
             accounts = new AccountDaoSQLite(this.dbConnect).getByCustomerId(customerId);
+            resultCustomer = new Customer(customerId, firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
         }
-        return new Customer(customerId, firstName, lastName, login, password, createDate, isActive, lasLogin, accounts);
+        return resultCustomer;
     }
 }
