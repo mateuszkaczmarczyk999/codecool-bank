@@ -9,4 +9,4 @@ INSERT INTO transaction_statuses (name, description) VALUES ('pending', 'pending
 INSERT INTO customers (firstname, lastname, login, password, createdate, isactive, lastlogin)
 VALUES ('Jan', 'Kowalski', 'janko', '12345', 1496926140916, 1, 1496926140916);
 INSERT INTO accounts (customerID, number, accounttypeID, accountstatusID, opendate, balance, debitline, interest)
-VALUES (1, '000999', 1, 1, 1496926140916, 1000, 0, 10);
+VALUES (1, '00 9999 8888', 1, 1, 1496926140, 10000, 1000, 10);

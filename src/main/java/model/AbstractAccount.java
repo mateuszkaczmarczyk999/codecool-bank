@@ -83,4 +83,13 @@ public abstract class AbstractAccount implements Account{
         return interest;
     }
 
+    @Override
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    @Override
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
+    }
 }

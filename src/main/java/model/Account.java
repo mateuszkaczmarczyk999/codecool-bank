@@ -15,4 +15,7 @@ public interface Account {
     Long getDebitLine();
     Integer getInterest();
 
+    void setAccountType(AccountType accountTypeFromDb);
+
+    void setAccountStatus(AccountStatus accountStatusFromDb);
 }
