@@ -59,6 +59,25 @@ class CustomerDaoSQLiteTest {
     }
 
     @Test
+    void testFindCustomerByLoginAndPassword() throws SQLException {
+        String testLogin = "janko";
+        String testPassword = "12345";
+        Date expectedCreateDate = new Date(1496926140916L);
+        Date expectedLastLoginDate = new Date(1496926140916L);
+        Customer expectedCustomer = new Customer(1, "Jan", "Kowalski", "janko", "12345", expectedCreateDate, true, expectedLastLoginDate);
+        Customer actualCustomer = this.customerDaoSQLite.find(testLogin, testPassword);
+        assertAll("testFoundCustomerData",
+                () -> assertEquals(expectedCustomer.getFirstName(), actualCustomer.getFirstName()),
+                () -> assertEquals(expectedCustomer.getLastName(), actualCustomer.getLastName()),
+                () -> assertEquals(expectedCustomer.getLogin(), actualCustomer.getLogin()),
+                () -> assertEquals(expectedCustomer.getPassword(), actualCustomer.getPassword()),
+                () -> assertEquals(expectedCustomer.getCreateDate(), actualCustomer.getCreateDate()),
+                () -> assertEquals(expectedCustomer.isActive(), actualCustomer.isActive()),
+                () -> assertEquals(expectedCustomer.getLastLogin(), actualCustomer.getLastLogin())
+        );
+    }
+
+    @Test
     void testInsertNewCustomer() throws SQLException {
         Date createDate = new Date(1496926140916L);
         Date lastastLoginDate = null;
