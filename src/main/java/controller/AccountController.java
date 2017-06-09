@@ -46,4 +46,18 @@ public class AccountController {
         this.accountDao.addOrUpdate(newAccount);
         System.out.println("Saving Account added");
     }
+
+    public void blockAnAccount(Account accountToBlock) throws SQLException {
+        AccountStatus blockedStatus = new AccountStatus(2,"Invalid", "Account is blocked");
+        accountToBlock.setAccountStatus(blockedStatus);
+        this.accountDao.addOrUpdate(accountToBlock);
+        System.out.println("Account blocked");
+    }
+
+    public void unBlockAnAccount(Account accountToUnBlock) throws SQLException {
+        AccountStatus unBlockedStatus = new AccountStatus(1,"Valid", "Account is valid");
+        accountToUnBlock.setAccountStatus(unBlockedStatus);
+        this.accountDao.addOrUpdate(accountToUnBlock);
+        System.out.println("Account unblocked");
+    }
 }

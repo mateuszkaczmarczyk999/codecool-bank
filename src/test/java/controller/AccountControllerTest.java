@@ -20,11 +20,12 @@ class AccountControllerTest {
 
     private DatabaseConnection dbConnect = new DatabaseConnection();
     private AccountDao accountDao;
-    AccountController accountController;
+    private AccountController accountController;
 
     @BeforeEach
     void openConnection() throws SQLException {
         dbConnect.openConnection("jdbc:sqlite:src/test/resource/test_database.db");
+        dbConnect.dropTables();
         dbConnect.initDatabase();
         dbConnect.insertData();
         this.accountDao = new AccountDaoSQLite(dbConnect);
@@ -62,6 +63,24 @@ class AccountControllerTest {
                 () -> assertEquals(testCustomerId, testedAccountFromDb.getCustomerId()),
                 () -> assertEquals(accountInterest, testedAccountFromDb.getInterest())
         );
+    }
+
+    @Test
+    public void testBlockAnAccount() throws SQLException {
+        Integer accountIdInDb = 1;
+        Account accountToBlock = accountDao.find(accountIdInDb);
+        accountController.blockAnAccount(accountToBlock);
+        Account blockedAccountFromDb = accountDao.find(accountIdInDb);
+        assertEquals("Invalid", blockedAccountFromDb.getAccountStatus().getName());
+    }
+
+    @Test
+    public void testUnBlockAnAccount() throws SQLException {
+        Integer accountIdInDb = 1;
+        Account accountToUnBlock = accountDao.find(accountIdInDb);
+        accountController.unBlockAnAccount(accountToUnBlock);
+        Account unBlockedAccountFromDb = accountDao.find(accountIdInDb);
+        assertEquals("Valid", unBlockedAccountFromDb.getAccountStatus().getName());
     }
 
 }
